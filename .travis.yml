@@ -4,7 +4,7 @@ python: '3.6'
 services:
   - postgresql
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgresres
+  - psql -c 'create database travis_ci_test;' -U postgres
 test:
   adapter: postgresql
   database: travis_ci_test
