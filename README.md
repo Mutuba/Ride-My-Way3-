@@ -10,7 +10,12 @@ A Web Application that enable users(CarTax Operators) to create an account and b
 - View One Rides.
 - Post Requests for rides.
 - View all Requests for rides
-- Change users password
+- Accept a ride request
+- Reject a ride request
+- Delete a ride offer
+- Delete a ride request
+- Update a ride offer
+- Update a request for a ride
 
 ## Prerequisites
 
@@ -19,16 +24,16 @@ A Web Application that enable users(CarTax Operators) to create an account and b
 ## Installation
 Clone the repo.
 ```
-$ git clone https://github.com/mutuba/Ride-My-Way2.git
+$ git clone https://github.com/mutuba/Ride-My-Way3-.git
 ```
 and cd into the folder:
 ```
-$ /Ride-My-Way
+$ /Ride-My-Way3-
 ```
 ## Virtual environment
 Create a virtual environment:
 ```
-mkvirtualenv <virtual environment name>
+$ mkvirtualenv <virtual environment name>
 ```
 ## Dependencies
 Install package requirements to your environment.
@@ -54,10 +59,8 @@ $ nosetests --with-coverage. Also pytest -v
 ## Start The Server
 To start the server run the following command
 ```
-Set environment variable as follows:
-$ EXPORT FLASK_APP=V1/__init__.py
 Then run:
-python manage.py run 
+python run.py 
 ```
 The server will run on port: 5000
 
@@ -65,7 +68,7 @@ The server will run on port: 5000
 
 *Note* Ensure that after you succesfully login a user, you use the generated token in the authorization header for the endpoints that require authentication. Remeber to add Bearer before the token as shown:
 ```
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJpYXQiO 
+access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJpYXQiO 
 ```
 
 
@@ -73,18 +76,20 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJpYXQiO
 
 | Endpoint | Method |  Functionality | Authentication |
 | --- | --- | --- | --- |
-| /api/auth/v1/register | POST | Creates a user account | FALSE
-| /api/auth/v1/login | POST | Logs in a user | TRUE
-| /api/auth/v1/logout | POST | Logs out a user | TRUE
-| /api/auth/v1/change_password | POST | Change user password | TRUE
-| /api/v1/rides | POST | Creates a ride | TRUE
-| /api/v1/rides | GET | Retrieves all rides | TRUE 
-| /api/v1/rides/{ride_id} | GET | Get a ride | TRUE
-| /api/v1/rides/{ride_id} | PUT | Update a ride details | TRUE
-| /api/v1/rides/{ride_id} | DELETE | Delete a ride | TRUE
-| /api/v1/rides/{ride_id}/requests | POST | Request a ride | TRUE
-| /api/v1/rides/{ride_id}/requests | GET | Get all requests for a ride | TRUE
-
+| /api/auth/v2/register | POST | Creates a user account | FALSE
+| /api/auth/v2/login | POST | Logs in a user | TRUE
+| /api/v2/rides | POST | Creates a ride | TRUE
+| /api/v2/users/rides | GET | Retrieves all rides | TRUE 
+| /api/v2/users/rides/{ride_id} | GET | Get a ride | TRUE
+| /api/v2/users/rides/{ride_id} | PUT | Update a ride details | TRUE
+| /api/v2/users/rides/{ride_id} | DELETE | Delete a ride | TRUE
+| /api/v2/rides/requests | POST | Request a ride | TRUE
+| /api/v2/users/rides/requests | GET | Get all requests for rides | TRUE
+| /api/v2/users/rides/requests/{request_id} | GET | Get a single request | TRUE
+| /api/v2/users/rides/requests/{request_id} | PUT | Update a single request | TRUE
+| /api/v2/users/rides/requests/{request_id} | DELETE | Delete a single request | TRUE
+| /api/v2/users/rides/requests/accept{request_id} | PUT | Accept a request | TRUE
+| /api/v2/users/rides/requests/reject{request_id} | PUT | Reject a request | TRUE
 
 
 ## API Documentation

@@ -284,7 +284,6 @@ def create_app(config_name):
             return jsonify(ride), 200
         return jsonify({'message': 'no rides found'})
 
-
     # ride requests endpoints
     @app.route("/api/v2/rides/requests", methods=["POST"])
     @login_required
