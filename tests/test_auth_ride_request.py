@@ -212,9 +212,25 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(response.status_code, 200)
 
     def test_api_to_view_a_ride(self):
-        """ Test api to return a single ride given an id"""
+        """Test api to return a single ride given an id"""
         response = self.client().get(
             "/api/v2/users/rides/1",
+            headers=self.headers)
+        print(self.headers['token'])
+        self.assertEquals(response.status_code, 200)
+
+    def test_api_to_view_a_ride_not_found(self):
+        """Test api to return a single ride given an id"""
+        response = self.client().get(
+            "/api/v2/users/rides/10",
+            headers=self.headers)
+        print(self.headers['token'])
+        self.assertEquals(response.status_code, 200)
+
+    def test_api_to_view_a_request_not_found(self):
+        """Test api to return a single ride given an id"""
+        response = self.client().get(
+            "/api/v2/rides/requests/10",
             headers=self.headers)
         print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
