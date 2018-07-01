@@ -1,5 +1,5 @@
 # Ride-My-Way
-
+[![Build Status](https://travis-ci.org/Mutuba/Ride-My-Way3-.svg?branch=feature)](https://travis-ci.org/Mutuba/Ride-My-Way3-)
 ## Ride-My-Way
 
 A Web Application that enable users(CarTax Operators) to create an account and be able to create ride offers. Passengers will be able to view the ride offers and request to join:
