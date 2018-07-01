@@ -8,6 +8,8 @@ before_script:
 test:
   adapter: postgresql
   database: travis_ci_test
+addons:
+  postgresql: "9.4"
 
 addons:
   jwt:
