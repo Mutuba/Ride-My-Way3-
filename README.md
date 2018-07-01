@@ -1,5 +1,5 @@
 # Ride-My-Way
-[![codecov](https://codecov.io/gh/Mutuba/Ride-My-Way3-/branch/master/graph/badge.svg)](https://codecov.io/gh/Mutuba/Ride-My-Way3-)
+
 ## Ride-My-Way
 
 A Web Application that enable users(CarTax Operators) to create an account and be able to create ride offers. Passengers will be able to view the ride offers and request to join:
