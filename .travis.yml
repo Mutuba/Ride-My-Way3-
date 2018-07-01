@@ -1,6 +1,13 @@
 language: python
 
 python: '3.6'
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+test:
+  adapter: postgresql
+  database: ride_my_way_test
 
 addons:
   jwt:
