@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<title>Maintenance Tracker</title>
+</head>
+
+<body>
+	<div class="navbar">
+  		<a href="user-requests.html" id="navbrand">Maintenance Tracker</a>
+  		
+  		<div class="dropdown" id="navright">
+    		<button class="dropbtn">My Account
+    			<i class="fa fa-caret-down"></i>
+    		</button>
+	    	<div class="dropdown-content">
+	      		<a href="admin-filter.html">Admin</a>
+	      		<a href="#">Logout</a>
+    		</div>
+ 		</div>
+ 		<a href="#news" id="navright">Create Request</a>
+	</div>
+		
+
+    <div class="form-container">
+        <h1><u>Create Request</u></h1>
+        <br>
+    <form action="">
+        <label for="requestdate">Request Date:</label>
+        <input type="text" id="requestdate" name="requestdate" placeholder="Todays date..">
+
+        <label for="requesttitle">Request Title:</label>
+        <input type="text" id="requesttitle" name="requesttitle" placeholder="Title..">
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" placeholder="Location..">
+
+
+        <label for="priority">Priority:</label>
+        <select id="country" name="country">
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+        </select>
+
+        <label for="description">Work Description:</label>
+        <textarea id="description" name="description" placeholder="Describe the work.." style="height:200px"></textarea>
+        <div class="clearfix">
+            <input type="submit" value="Submit">
+        </div>    
+    </form>
+    </div>
+    <br>
+    <br>
+
+    <div class="footer">
+        <p>Copyright <i class="fa fa-copyright"></i> 2018</p>
+    </div> 
+        
+</body>	
+</html>

@@ -1,0 +1,266 @@
+body{
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: rgb(0, 77, 77);
+  font-family: Arial;
+}
+
+/* Links inside the navbar */
+.navbar a{
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* The dropdown container */
+.dropdown {
+  overflow: auto;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a green background color to navbar links on hover */
+.navbar #navright:hover {
+  background-color: #4CAF50;
+}
+
+.navbar #navbrand{
+    float: left;
+    text-transform: uppercase;
+}
+
+.navbar #navbrand:hover{
+    color: #4CAF50;
+}
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#navright{
+    float: right;
+}
+
+.container{
+    float: left;
+    margin: 0 auto;
+    width: 80%;
+    clear: both;
+}
+
+#requests{
+    position: absolute;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    margin: 10px 60px;
+    overflow: hidden;
+}
+
+#requests td, #requests th{
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#requests tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#requests tr:hover{
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+#requests tr td a{
+    text-decoration: none;
+    color:  #4CAF50;
+}
+
+#requests th{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color:  #4CAF50;
+    color: white;
+}
+
+.form-container h1, .form-container h2{
+    color:  rgb(0, 77, 77);
+}
+
+.form-container-line h1, .form-container-line h2{
+    color:  rgb(0, 77, 77);
+}
+
+.form-container input[type=text], .form-container select, .form-container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.form-container-line input[type=text], .form-container-line select, .form-container-line textarea {
+    width: 100px;
+    padding: 10px 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-right: 4px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.form-container #approve, .form-container input[type=submit]  {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container-line input[type=submit]  {
+    float: right;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 30px;
+    margin: 5px auto;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-container #approve:hover, .form-container input[type=submit]:hover {
+    background-color: rgb(111, 214, 114);
+}
+
+.form-container-line input[type=submit]:hover {
+    background-color: rgb(111, 214, 114);
+}
+
+.form-container #reject {
+    background-color: rgb(255, 0, 0);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container #reject:hover {
+    background-color: rgb(255, 77, 77);
+}
+
+.form-container #resolve {
+    background-color: rgb(0, 77, 77);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container #resolve:hover {
+    background-color: rgb(0, 128, 128);
+}
+
+
+.form-container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin: 10px 50px 50px;
+}
+
+.form-container-line {
+    width: 110%;
+    position: relative;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin: 10px 50px 50px;
+}
+
+
+#filterform {
+    margin: 10px 60px;
+}
+
+.tbcontrols{
+    margin-top: 360px;
+    margin-left: 600px;    
+}
+
+.tbcontrols #previous{
+    padding: 12px 18px;
+    border: none;
+    border-radius: 5px;
+}
+
+.tbcontrols #next{
+    padding: 12px 27px;
+    border: none;
+    border-radius: 5px;
+}
+
+.tbcontrols #previous:hover, .tbcontrols #next:hover { 
+    background-color:  #4CAF50;
+    color: white;
+}
+
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(0, 77, 77);
+    color: white;
+    text-align: center;
+}

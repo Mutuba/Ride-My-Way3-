@@ -1,0 +1,23 @@
+[
+  "tests/test_auth_ride_request.py::TestRequests::test_api_create_ride_missing_category",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_create_ride_token_missing",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_for_user_create_request",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_for_user_create_ride",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_delete_a_request",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_delete_a_ride",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_update_a_request",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_update_a_ride",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_view_a_request",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_view_a_ride",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_view_requests",
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_view_rides",
+  "tests/test_auth_ride_request.py::TestRequests::test_invalid_password_length",
+  "tests/test_auth_ride_request.py::TestRequests::test_invalid_user_email",
+  "tests/test_auth_ride_request.py::TestRequests::test_invalid_user_login",
+  "tests/test_auth_ride_request.py::TestRequests::test_user_can_accept_request",
+  "tests/test_auth_ride_request.py::TestRequests::test_user_can_reject_request",
+  "tests/test_auth_ride_request.py::TestRequests::test_user_registration",
+  "tests/test_auth_ride_request.py::TestRequests::test_user_registration_username_contain_spaces",
+  "tests/test_auth_ride_request.py::TestRequests::test_user_registration_username_exists",
+  "tests/test_auth_ride_request.py::TestRequests::test_valid_user_login"
+]
