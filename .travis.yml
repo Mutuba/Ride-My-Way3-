@@ -5,12 +5,12 @@ python:
 install:
   - pip install -r requirements.txt
 env:
-  - HOST=localhost DATABASE=maintenancetracker USER=postgres PASSWORD=postgres
+  - HOST=localhost DATABASE=ride USER=postgres PASSWORD=baraka
 services:
   - postgresql
 before_script:
-  - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" -U postgres
-  - psql -c "CREATE DATABASE maintenancetracker;" -U postgres
+  - psql -c "ALTER USER postgres WITH PASSWORD 'baraka';" -U postgres
+  - psql -c "CREATE DATABASE ride;" -U postgres
 # command to run tests
 script:
   - python manage.py
