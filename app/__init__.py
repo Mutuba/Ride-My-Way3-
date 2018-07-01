@@ -130,7 +130,7 @@ def create_app(config_name):
             if val_length:
                 return jsonify(
                     {'message':
-                        'Password is weak! Must have atleast 8 characters'}), 406
+                    'Password is weak! Must have atleast 8 characters'}), 406
             val_email = email_prtn(request.json['email'])
 
             if val_email:
@@ -138,22 +138,22 @@ def create_app(config_name):
                     {'message':
                         'Email format is user@example.com'}), 406
 
-            #for values in new_user.values():
-                #if values == "":
+            # for values in new_user.values():
+                # if values == "":
 
-                    #return jsonify({'message': 'Please fill all fields'})
+                    # return jsonify({'message': 'Please fill all fields'})
 
             if new_user['username'] in all_users:
 
                 return jsonify({'message': 'User already registered'}), 400
 
-            #if len(request.json['password']) < 6:
-                #return jsonify({'message':
-                                #'Password should be atleast 6 characters'})
+            # if len(request.json['password']) < 6:
+                # return jsonify({'message':
+                                # 'Password should be atleast 6 characters'})
 
-            #elif not validate_email(request.json['email']):
+            # elif not validate_email(request.json['email']):
 
-                #return jsonify({'message': 'Enter valid email'})
+                # return jsonify({'message': 'Enter valid email'})
 
             hashed_pswd = generate_password_hash(new_user['password'])
 
@@ -178,11 +178,13 @@ def create_app(config_name):
         users = Users.login(username, password)
         if users:
             for user in users:
-                if user['username'] == username and check_password_hash(user['password'], password):
+                if user['username'] == username and \
+                check_password_hash(user['password'], password):
 
                     token = jwt.encode(
                         {"user_id": user['user_id'],
-                        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, SECRET_KEY)
+                        'exp': datetime.datetime.utcnow() + \
+                        datetime.timedelta(minutes=30)}, SECRET_KEY)
                     role = Users.get_role(user['user_id'])[0][0]
                     return jsonify(
                         {'token': token.decode('UTF-8')},
