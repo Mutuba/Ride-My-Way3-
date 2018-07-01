@@ -1,26 +1,21 @@
 language: python
-
-python: '3.6'
+python:
+  - 3.6
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+env:
+  - HOST=localhost DATABASE=maintenancetracker USER=postgres PASSWORD=postgres
 services:
   - postgresql
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-test:
-  adapter: postgresql
-  database: travis_ci_test
-addons:
-  postgresql: "9.4"
-
-addons:
-  jwt:
-     secure: 'cbbfvfjjfjjjfsjajjkkvsjh4636787531r9898298981'
-
-# Install dependencies
-install: 
-    - pip install -r requirements.txt
-    - pip install coveralls
-
-# Run tests
-script: nosetests --with-coverage
-
-after_success: coveralls
+  - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';" -U postgres
+  - psql -c "CREATE DATABASE maintenancetracker;" -U postgres
+# command to run tests
+script:
+  - python manage.py
+  - pytest --cov-report= --cov=app/ tests
+#run coverage tests
+after_success:
+  - coveralls
+  - codecov --token=924ff14f-e9e6-425b-b646-25e12c56be63
