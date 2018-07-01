@@ -379,7 +379,7 @@ def create_app(config_name):
     # Approve a request
     @app.route("/api/v2/rides/requests/<int:id>/accept", methods=["PUT"])
     @login_required
-    def approve_request(current_user_id, id):
+    def accept_request(current_user_id, id):
         # if Users.get_role(current_user_id)[0][0]:
         status_list = Requests.get_status(id)
         print(status_list)
@@ -387,7 +387,7 @@ def create_app(config_name):
             return jsonify({'message': 'No request found'}), 200
         status = status_list[0][0].lower()
         if status == "open":
-            message = Requests.approve(id)
+            message = Requests.accept_a_request(id)
             return jsonify(message), 200
         elif status == 'rejected':
             return jsonify({'message': 'Request already Rejected'})
@@ -405,7 +405,7 @@ def create_app(config_name):
 
         print(status)
         if status == "pending":
-            message = Requests.reject(id)
+            message = Requests.reject_a_request(id)
             return jsonify(message), 201
         elif status == 'approved':
             return jsonify({'message':'Request already accepted'})

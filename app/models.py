@@ -275,10 +275,10 @@ class Request:
             status.append(s)
         return status
 
-    def accept_a_ride(self, id):
+    def accept_a_request(self, id):
         cur = conn.cursor()
         sql = "UPDATE requests SET request_status=(%s) WHERE request_id=(%s)"
-        data = ("ACcepted", id)
+        data = ("Accepted", id)
         cur.execute(sql, data)
         conn.commit()
         return {'message': 'Request approved'}
