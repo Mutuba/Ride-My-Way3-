@@ -1,7 +1,7 @@
 import os
 import unittest
 import json
-from app import create_app
+from V2 import create_app
 import psycopg2
 
 
@@ -66,7 +66,7 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(response.status_code, 201)
         self.headers = {'token': data[0]['token']}
 
-        response = self.client().post('/api/v2/rides/requests',
+        response = self.client().post('/api/v2/rides/1/requests',
                                       data=json.dumps(self.request),
                                       headers=self.headers,
                                       content_type='application/json')
@@ -185,7 +185,7 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(response.status_code, 500)
 
     def test_api_for_user_create_request(self):
-        response = self.client().post("/api/v2/rides/requests",
+        response = self.client().post("/api/v2/rides/7/requests",
                                       data=json.dumps(self.request),
                                       headers=self.headers,
                                       content_type='application/json')
@@ -222,7 +222,7 @@ class TestRequests(unittest.TestCase):
     def test_api_to_view_a_ride_not_found(self):
         """Test api to return a single ride given an id"""
         response = self.client().get(
-            "/api/v2/users/rides/10",
+            "/api/v2/users/rides/50",
             headers=self.headers)
         print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
@@ -230,7 +230,7 @@ class TestRequests(unittest.TestCase):
     def test_api_to_view_a_request_not_found(self):
         """Test api to return a single ride given an id"""
         response = self.client().get(
-            "/api/v2/rides/requests/10",
+            "/api/v2/rides/requests/50",
             headers=self.headers)
         print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
@@ -302,6 +302,7 @@ class TestRequests(unittest.TestCase):
         data = json.loads(response.data.decode())
         print(data)
         self.assertEquals(response.status_code, 200)
+
 
 
 if __name__ == "__main__":

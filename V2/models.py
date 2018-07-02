@@ -48,7 +48,7 @@ class User():
         sql = "DELETE from users WHERE user_id = (%s)"
         data = (id, )
         cur.execute(sql, data)
-        return ({"message":"User deleted"})
+        return({"message":"User deleted"})
 
     def login(self, name, pswd):
         cur = conn.cursor()
@@ -181,16 +181,16 @@ class Request:
     def create_request(
         self, request_description,
         request_priority, request_status,
-        requester_id
+        requester_id, ride_id
     ):
         cur = conn.cursor()
         sql = "INSERT INTO requests(request_date, request_description,\
                                     request_priority,\
-                                    request_status, requester_id)\
-                            VALUES (%s, %s, %s, %s, %s);"
+                                    request_status, requester_id, ride_id)\
+                            VALUES (%s, %s, %s, %s, %s, %s);"
         date = datetime.datetime.now()
         data = (date, request_description,
-                request_priority, request_status, requester_id)
+                request_priority, request_status, requester_id, ride_id)
         cur.execute(sql, data)
 
         conn.commit()
@@ -203,7 +203,7 @@ class Request:
         cur.execute("SELECT * FROM requests WHERE requester_id = (%s)", [id])
         columns = ('request_id', 'request_date',
                    'request_description', 'request_priority',
-                   'request_status', 'requester_id')
+                   'request_status', 'requester_id', 'ride_id')
         requests = []
         for request in cur.fetchall():
 
@@ -215,7 +215,7 @@ class Request:
         cur.execute("SELECT * FROM requests WHERE request_id = (%s)", [id])
         columns = ('request_id', 'request_date',
                    'request_description', 'request_priority',
-                   'request_status', 'requester_id')
+                   'request_status', 'requester_id', 'ride_id')
         requests = []
 
         for request in cur.fetchall():
@@ -257,7 +257,7 @@ class Request:
         cur.execute("SELECT * FROM requests;")
         columns = ('request_id', 'request_date',
                    'request_description', 'request_priority',
-                   'request_status', 'requester_id')
+                   'request_status', 'requester_id', 'ride_id')
         requests = []
 
         for request in cur.fetchall():

@@ -42,6 +42,26 @@ Install package requirements to your environment.
 pip install -r requirements.txt
 ```
 
+## Database Setup
+```
+$ EXPORT DATABASE=<your postgres db name>
+```
+```
+$ EXPORT USER=<postgres database user>
+```
+
+```
+$ EXPORT HOST=<postgres database host>
+```
+
+```
+$ EXPORT PASSWORD=<postgres database password>
+```
+
+```
+$ python create_tables.py
+```
+
 ## Testing
 To set up unit testing environment:
 
