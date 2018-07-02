@@ -61,6 +61,7 @@ def create_app(config_name):
 
     # Decorator function to check for jwt token in the headers
     def login_required(f):
+        """ Function checks and validates jwt token"""
         @wraps(f)
         def decorated(*args, **kwargs):
             token = None
