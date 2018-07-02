@@ -13,7 +13,7 @@ before_script:
   - psql -c "CREATE DATABASE ride;" -U postgres
 # command to run tests
 script:
-  - python manage.py
+  - python create_tables.py
   - pytest --cov-report= --cov=app/ tests
 #run coverage tests
 after_success:

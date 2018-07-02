@@ -233,6 +233,14 @@ class TestRequests(unittest.TestCase):
             "/api/v2/rides/requests/50",
             headers=self.headers)
         print(self.headers['token'])
+        self.assertEquals(response.status_code, 200) #####
+
+    def test_api_to_delete_a_request_not_found(self):
+        """Test api to return a single ride given an id"""
+        response = self.client().delete(
+            "/api/v2/rides/requests/50",
+            headers=self.headers)
+        print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
     def test_api_to_view_rides(self):

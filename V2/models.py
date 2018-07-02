@@ -8,11 +8,16 @@ conn = psycopg2.connect(
     user=os.getenv("USER"), password=os.getenv("PASSWORD"))
 
 
-class User():
-    def __init__(self):
-        pass
+class User(object):
+    def __init__(self, username, email, password, role):
+        """ initialization. class constructor"""
+        self.username = username
+        self.email = email
+        self.password = password
+        self.role = role
 
     def create_user(self, username, email, password, role=None):
+        """" Function creates a user and saves in the database"""
         if role is None:
             role = False
         cur = conn.cursor()
@@ -26,6 +31,7 @@ class User():
         print("New user added to user table")
 
     def show_users(self):
+        """ Function returns all users from the database"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM users;")
         columns = ('user_id', 'username', 'email', 'password', 'role')
@@ -35,6 +41,7 @@ class User():
         return users
 
     def promote_user(self, id):
+        """ Function promotes a user's role"""
         cur = conn.cursor()
         role = True
         sql = "UPDATE users SET role=(%s) WHERE user_id=(%s);"
@@ -44,6 +51,7 @@ class User():
         return ({"message": "User promoted"})
 
     def delete_user(self, id):
+        """ Function deletes a user from the database given an id"""
         cur = conn.cursor()
         sql = "DELETE from users WHERE user_id = (%s)"
         data = (id, )
@@ -51,6 +59,7 @@ class User():
         return({"message":"User deleted"})
 
     def login(self, name, pswd):
+        """ Function logs in a user after validating user details"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM users WHERE username = (%s)", [name])
         columns = ('user_id', 'username', 'email', 'password', 'role')
@@ -60,6 +69,7 @@ class User():
         return users
 
     def get_user(self, id):
+        """ Returns a single user by id from the database"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM users WHERE user_id = (%s)", [id])
         columns = ('user_id', 'username', 'email', 'password', 'role')
@@ -69,6 +79,7 @@ class User():
         return users
 
     def get_role(self, id):
+        """ Returns the role of a user"""
         cur = conn.cursor()
         cur.execute("SELECT role FROM users WHERE user_id = (%s)", [id])
         roles = []
@@ -85,16 +96,27 @@ class User():
         return users
 
 
-class Ride:
+class Ride(object):
 
-    def __init__(self):
-        pass
+    def __init__(
+        self, category, pick_up, drop_off,
+        date_time, ride_status, creator_id
+    ):
+        """ Class initialization."""
+
+        self.category = category
+        self.pick_up = pick_up
+        self.drop_off = drop_off
+        self.date_time = date_time
+        self.ride_status = ride_status
+        self. creator_id = creator_id
 
     def create_ride(
         self, category, pick_up,
         drop_off, date_time,
         ride_status, creator_id
     ):
+        """ Creates a ride and updates the database"""
         cur = conn.cursor()
         sql = "INSERT INTO rides(ride_date, category, pick_up,\
                                     drop_off, date_time,\
@@ -111,6 +133,7 @@ class Ride:
         print("New ride added to user table")
 
     def get_user_rides(self, id):
+        """ Function returns current user's rides from the database"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM rides WHERE creator_id = (%s)", [id])
         columns = ('ride_id', 'ride_date', 'category',
@@ -122,6 +145,7 @@ class Ride:
         return rides
 
     def get_a_ride(self, id):
+        """ Function returns a ride by id from the database"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM rides WHERE ride_id = (%s)", [id])
         columns = ('ride_id', 'ride_date', 'category',
@@ -137,6 +161,7 @@ class Ride:
         self, id, category,
         pick_up, drop_off
     ):
+        """ Function updtaes a ride details by id."""
         cur = conn.cursor()
         sql = "UPDATE rides SET category=(%s), pick_up=(%s),\
                  drop_off=(%s) WHERE ride_id = (%s)"
@@ -146,12 +171,15 @@ class Ride:
         return {'message': 'ride updated successfully'}
 
     def delete_a_ride(self, id):
+        """ Function deletes a ride by id from the database"""
+
         cur = conn.cursor()
         cur.execute("DELETE from rides WHERE ride_id=(%s)", [id])
         conn.commit()
         return {'message': 'ride deleted'}
 
     def get_all_rides(self):
+        """ Function returns all the rides from the database"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM rides;")
         columns = ('ride_id', 'ride_date', 'category',
@@ -163,6 +191,7 @@ class Ride:
         return rides
 
     def get_status(self, id):
+        """ Function returns the status of a ride from the database"""
         cur = conn.cursor()
         cur.execute(
             "SELECT ride_status FROM rides WHERE ride_id = (%s)", [id])
@@ -170,19 +199,25 @@ class Ride:
         for s in cur.fetchall():
             status.append(s)
         return status
-######
 
 
-class Request:
+class Request(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, request_description,
+        request_priority, request_status, ride_id
+    ):
+        """ Class initialization. An instance of request will have this attributes. """
+        self.request_description = request_description
+        self.request_priority = request_priority
+        self.request_status = request_status
+        self.ride_id = ride_id
 
     def create_request(
         self, request_description,
         request_priority, request_status,
         requester_id, ride_id
     ):
+        """ Function creates a ride request and saves to the database"""
         cur = conn.cursor()
         sql = "INSERT INTO requests(request_date, request_description,\
                                     request_priority,\
@@ -199,6 +234,7 @@ class Request:
         print("New request added to user table")
 
     def get_user_requests(self, id):
+        """ Function returns a particular user's ride requests"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM requests WHERE requester_id = (%s)", [id])
         columns = ('request_id', 'request_date',
@@ -211,6 +247,7 @@ class Request:
         return requests
 
     def get_a_request(self, id):
+        """ Function returns a request by id"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM requests WHERE request_id = (%s)", [id])
         columns = ('request_id', 'request_date',
@@ -227,6 +264,7 @@ class Request:
         return requests
 
     def update_a_request(self, id, description, priority):
+        """ Function updates a request's description and priority"""
         cur = conn.cursor()
 
         sql = "UPDATE requests SET request_description=(%s), request_priority=(%s)\
@@ -241,7 +279,7 @@ class Request:
         return {'message': 'request updated successfully'}
 
     def delete_a_request(self, id):
-
+        """ Function deletes a user request form the databaase"""
         cur = conn.cursor()
 
         cur.execute("DELETE from requests WHERE request_id=(%s)", [id])
@@ -251,7 +289,7 @@ class Request:
         return {'message': 'request deleted'}
 
     def get_all_requests(self):
-
+        """ Function returns all requests from the database"""
         cur = conn.cursor()
 
         cur.execute("SELECT * FROM requests;")
@@ -266,6 +304,7 @@ class Request:
         return requests
 
     def get_status(self, id):
+        """ Function returns the status of a request by id from the database"""
         cur = conn.cursor()
         cur.execute(
             "SELECT request_status FROM requests \
@@ -276,6 +315,7 @@ class Request:
         return status
 
     def accept_a_request(self, id):
+        """ Function enables a user to accept a request by id"""
         cur = conn.cursor()
         sql = "UPDATE requests SET request_status=(%s) WHERE request_id=(%s)"
         data = ("Accepted", id)
@@ -284,6 +324,7 @@ class Request:
         return {'message': 'Request approved'}
 
     def reject_a_request(self, id):
+        """ Function enables a user to reject a ride request"""
         cur = conn.cursor()
         sql = "UPDATE requests SET request_status=(%s) WHERE request_id=(%s)"
         data = ('Rejected', id)

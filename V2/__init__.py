@@ -8,9 +8,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
 
-Users = User()
-Rides = Ride()
-Requests = Request()
+Users = User('username', 'email', 'password', 'role')
+Rides = Ride('category', 'pick_up', 'drop_off', 
+    'date_time', 'ride_status', 'creator_id' )
+Requests = Request('request_description',
+    'request_priority', 'request_status', 'ride_id')
 
 
 def create_app(config_name):
