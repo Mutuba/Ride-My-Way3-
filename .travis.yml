@@ -14,7 +14,7 @@ before_script:
 # command to run tests
 script:
   - python create_tables.py
-  - pytest --cov-report= --cov=app/ tests
+  - pytest --cov-report= --cov=V2/ tests
 #run coverage tests
 after_success:
   - coveralls
