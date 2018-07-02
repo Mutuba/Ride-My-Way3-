@@ -311,6 +311,27 @@ class TestRequests(unittest.TestCase):
         print(data)
         self.assertEquals(response.status_code, 200)
 
+    def test_reject_request_id_not_int(self):
+        response = self.client().put(
+            '/api/v2/rides/requests/m/reject',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid request Id')
+
+    def test_user_can_accept_request(self):
+        response = self.client().put(
+            '/api/v2/rides/requests/n/accept',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid request Id')
+
+
 
 
 if __name__ == "__main__":

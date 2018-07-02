@@ -17,6 +17,7 @@
   "tests/test_auth_ride_request.py::TestRequests::test_invalid_password_length",
   "tests/test_auth_ride_request.py::TestRequests::test_invalid_user_email",
   "tests/test_auth_ride_request.py::TestRequests::test_invalid_user_login",
+  "tests/test_auth_ride_request.py::TestRequests::test_reject_request_id_not_int",
   "tests/test_auth_ride_request.py::TestRequests::test_user_can_accept_request",
   "tests/test_auth_ride_request.py::TestRequests::test_user_can_reject_request",
   "tests/test_auth_ride_request.py::TestRequests::test_user_registration",
