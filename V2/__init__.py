@@ -206,12 +206,15 @@ def create_app(config_name):
         return jsonify(
             {'message': 'Ride created successfully'}), 201
 
-    @app.route("/api/v2/users/rides/<int:id>", methods=["GET"])
+    @app.route("/api/v2/users/rides/<id>", methods=["GET"])
     @login_required
     def get_ride(current_user_id, id):
         """ Function returns a single ride for the current user"""
-        my_ride_id = int(id)
-        ride = Rides.get_a_ride(my_ride_id)
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid ride Id'}), 400
+        ride = Rides.get_a_ride(id)
         if ride:
             if ride[0]['creator_id'] == current_user_id:
                 return jsonify(ride), 200
@@ -219,10 +222,14 @@ def create_app(config_name):
         return jsonify({'message': 'Ride not found'}), 200
 
     # Update a specific request
-    @app.route("/api/v2/users/rides/<int:id>", methods=["PUT"])
+    @app.route("/api/v2/users/rides/<id>", methods=["PUT"])
     @login_required
     def update_ride(current_user_id, id):
         """ Function updates details of a ride specified by an id"""
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid ride Id'}), 400
         if not request.json:
             abort(404)
         category = request.json['category']
@@ -240,10 +247,14 @@ def create_app(config_name):
             return ({'message': 'update failed'})
 
     # Delete a specific request
-    @app.route("/api/v2/users/rides/<int:id>", methods=["DELETE"])
+    @app.route("/api/v2/users/rides/<id>", methods=["DELETE"])
     @login_required
     def delete_ride(current_user_id, id):
         """ Function deletes a ride specified by a given id"""
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid ride Id'}), 400
         ride = Rides.get_a_ride(int(id))
         if len(ride) < 1:
             return jsonify({'message': 'ride not found'})
@@ -268,10 +279,14 @@ def create_app(config_name):
         return jsonify({'message': 'no rides found'})
 
     # ride requests endpoints
-    @app.route("/api/v2/rides/<int:id>/requests", methods=["POST"])
+    @app.route("/api/v2/rides/<id>/requests", methods=["POST"])
     @login_required
     def create_request(current_user_id, id):
         """ Function enables a user to create a request for a ride"""
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid request Id'}), 400
         if not request.json:
             abort(404)
         req = {
@@ -300,9 +315,13 @@ def create_app(config_name):
         return jsonify({'message': 'Request created successfully'}), 201
 
     # View a specific request
-    @app.route("/api/v2/rides/requests/<int:id>", methods=["GET"])
+    @app.route("/api/v2/rides/requests/<id>", methods=["GET"])
     @login_required
     def get_request(current_user_id, id):
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid request Id'}), 400
         """ FUnction returns a ride request by id"""
         req_id = int(id)
         request = Requests.get_a_request(req_id)
@@ -313,10 +332,14 @@ def create_app(config_name):
         return jsonify({'message': 'Request not found'}), 200
 
     # Update a specific request
-    @app.route("/api/v2/rides/requests/<int:id>", methods=["PUT"])
+    @app.route("/api/v2/rides/requests/<id>", methods=["PUT"])
     @login_required
     def update_request(current_user_id, id):
         """ Function updated a ride request"""
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid request Id'}), 400
         if not request.json:
             abort(404)
         description = request.json['request_description']
@@ -333,10 +356,14 @@ def create_app(config_name):
             return ({'message': 'update failed'})
 
     # Delete a specific request
-    @app.route("/api/v2/rides/requests/<int:id>", methods=["DELETE"])
+    @app.route("/api/v2/rides/requests/<id>", methods=["DELETE"])
     @login_required
     def delete_request(current_user_id, id):
         """ Function deletes a ride request from the database"""
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid request Id'}), 400
         request = Requests.get_a_request(int(id))
 
         if len(request) < 1:
@@ -363,10 +390,14 @@ def create_app(config_name):
         return jsonify({'message': 'no requests found'})
 
     # Accept a ride request
-    @app.route("/api/v2/rides/requests/<int:id>/accept", methods=["PUT"])
+    @app.route("/api/v2/rides/requests/<id>/accept", methods=["PUT"])
     @login_required
     def accept_request(current_user_id, id):
         """ Function enables a user to accept a ride request offer"""
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid request Id'}), 400
         status_list = Requests.get_status(id)
         print(status_list)
         if len(status_list) == 0:
@@ -379,11 +410,15 @@ def create_app(config_name):
             return jsonify({'message': 'Request already Rejected'})
 
     # Reject a request for a ride. Driver action
-    @app.route("/api/v2/rides/requests/<int:id>/reject", methods=["PUT"])
+    @app.route("/api/v2/rides/requests/<id>/reject", methods=["PUT"])
     @login_required
     def reject_request(current_user_id, id):
         """if Users.get_role(current_user_id)[0][0]:
         Function enables a user to reject a ride request"""
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid request Id'}), 400
         status_list = Requests.get_status(id)
         print(status_list)
         if len(status_list) == 0:
