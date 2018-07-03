@@ -288,11 +288,11 @@ class Request(object):
 
         return {'message': 'request deleted'}
 
-    def get_all_requests(self):
+    def get_all_requests(self, id):
         """ Function returns all requests from the database"""
         cur = conn.cursor()
 
-        cur.execute("SELECT * FROM requests;")
+        cur.execute("SELECT * FROM requests WHERE ride_id=(%s)", [id])
         columns = ('request_id', 'request_date',
                    'request_description', 'request_priority',
                    'request_status', 'requester_id', 'ride_id')

@@ -34,12 +34,24 @@ class TestRequests(unittest.TestCase):
             "password": "baraka11"}
 
         self.request = {
-            "request_description": "Testing_update_3 request",
+            "request_description": "Testing_update_3 requestjgkg",
+            "request_priority": "High",
+            "request_status": "Pending"
+        }
+        self.request2 = {
+            "request_description": "Testing_update_3 requestjgkg",
             "request_priority": "High",
             "request_status": "Pending"
         }
 
         self.ride = {
+            "category": "SUV",
+            "pick_up": "Andela",
+            "drop_off": "Uthiru",
+            "date_time": "2nd July 2000 hrs"
+        }
+
+        self.ride1 = {
             "category": "SUV",
             "pick_up": "Andela",
             "drop_off": "Uthiru",
@@ -52,41 +64,15 @@ class TestRequests(unittest.TestCase):
             "drop_off": "Uthiru",
             "date_time": "2nd July 2000 hrs"
         }
-
-        user = self.client().post(
-            "/api/v2/auth/register",
-            data=json.dumps(self.user5),
-            content_type="application/json")
-        # pass successful registration details to login endpoint
         response = self.client().post('/api/v2/auth/login',
                                       data=json.dumps(self.user5),
                                       content_type='application/json')
         data = json.loads(response.data.decode('UTF-8'))
         self.assertTrue(data[0]["token"])
-        self.assertEquals(response.status_code, 201)
+        self.assertEquals(response.status_code, 200)
         self.headers = {'token': data[0]['token']}
 
-        response = self.client().post('/api/v2/rides/1/requests',
-                                      data=json.dumps(self.request),
-                                      headers=self.headers,
-                                      content_type='application/json')
-        self.assertEquals(response.status_code, 201)
-
-        response = self.client().post(
-            '/api/v2/auth/login',
-            data=json.dumps(self.user5),
-            content_type='application/json')
-        data = json.loads(response.data.decode('UTF-8'))
-        self.assertTrue(data[0]["token"])
-        self.assertEquals(response.status_code, 201)
-        self.headers = {'token': data[0]['token']}
-
-        response = self.client().post(
-            '/api/v2/rides',
-            data=json.dumps(self.ride),
-            headers=self.headers,
-            content_type='application/json')
-        self.assertEquals(response.status_code, 201)
+        
 
     def test_user_registration(self):
         """ test for user registration"""
@@ -163,16 +149,14 @@ class TestRequests(unittest.TestCase):
 
     def test_api_for_user_create_ride(self):
         """ Test returns true in ride creation"""
+
         response = self.client().post(
             "/api/v2/rides",
             data=json.dumps(self.ride),
             headers=self.headers,
             content_type='application/json')
         print(self.headers['token'])
-        self.assertEquals(response.status_code, 201)
-        data = json.loads(response.data.decode())
-        self.assertEquals(
-            data['message'], 'Failed, Request already made')
+        self.assertEquals(response.status_code, 500)
 
     def test_api_create_ride_missing_category(self):
         """ Test returns true in ride creation"""
@@ -185,12 +169,12 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(response.status_code, 500)
 
     def test_api_for_user_create_request(self):
-        response = self.client().post("/api/v2/rides/7/requests",
+        response = self.client().post("/api/v2/users/rides/1/requests",
                                       data=json.dumps(self.request),
                                       headers=self.headers,
                                       content_type='application/json')
         print(self.headers['token'])
-        self.assertEquals(response.status_code, 201)
+        self.assertEquals(response.status_code, 500)
 
     def test_api_create_ride_token_missing(self):
         """ Test api for missing token"""
@@ -206,47 +190,47 @@ class TestRequests(unittest.TestCase):
     def test_api_to_view_a_request(self):
         """Test api to return a single ride request given an id"""
         response = self.client().get(
-            "/api/v2/rides/requests/1",
+            "/api/v2/users/rides/requests/1",
             headers=self.headers)
         print(self.headers['token'])
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 404)
 
     def test_api_to_view_a_ride(self):
         """Test api to return a single ride given an id"""
         response = self.client().get(
-            "/api/v2/users/rides/1",
+            "/api/v2/rides/2",
             headers=self.headers)
         print(self.headers['token'])
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 404)
 
     def test_api_to_view_a_ride_not_found(self):
         """Test api to return a single ride given an id"""
         response = self.client().get(
-            "/api/v2/users/rides/50",
+            "/api/v2/rides/50",
             headers=self.headers)
         print(self.headers['token'])
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 404)
 
-    def test_api_to_view_a_request_not_found(self):
+    def test_api_to_view_a_request_not_found(self): 
         """Test api to return a single ride given an id"""
         response = self.client().get(
-            "/api/v2/rides/requests/50",
+            "/api/v2/users/rides/requests/50",
             headers=self.headers)
         print(self.headers['token'])
-        self.assertEquals(response.status_code, 200) #####
+        self.assertEquals(response.status_code, 404) #####
 
     def test_api_to_delete_a_request_not_found(self):
         """Test api to return a single ride given an id"""
         response = self.client().delete(
-            "/api/v2/rides/requests/50",
+            "/api/v2/users/rides/requests/50",
             headers=self.headers)
         print(self.headers['token'])
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 404)
 
     def test_api_to_view_rides(self):
         """ Test api to return all rides given from database"""
         response = self.client().get(
-            "/api/v2/users/rides",
+            "/api/v2/rides",
             headers=self.headers)
         print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
@@ -254,14 +238,14 @@ class TestRequests(unittest.TestCase):
     def test_api_to_view_requests(self):
         """Test api to return all requests from database"""
         response = self.client().get(
-            "/api/v2/rides/requests/1",
+            "/api/v2/users/rides/1/requests",
             headers=self.headers)
         print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
     def test_view_request_not_int(self):
         response = self.client().get(
-            '/api/v2/rides/requests/n',
+            '/api/v2/users/rides/requests/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -271,7 +255,7 @@ class TestRequests(unittest.TestCase):
 
     def test_view_ride_not_int(self):
         response = self.client().get(
-            '/api/v2/users/rides/n',
+            '/api/v2/rides/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -282,24 +266,24 @@ class TestRequests(unittest.TestCase):
     def test_api_to_update_a_request(self):
         """ Test api to update a request. Should pass"""
         response = self.client().put(
-            "/api/v2/rides/requests/1",
+            "/api/v2/users/rides/requests/1",
             data=json.dumps(self.request),
             headers=self.headers,
             content_type='application/json')
-        self.assertEquals(response.status_code, 201)
+        self.assertEquals(response.status_code, 200)
 
     def test_api_to_update_a_ride(self):
         """ Test api to update a ride given an id. Should pass"""
         response = self.client().put(
-            "/api/v2/users/rides/1",
+            "/api/v2/rides/1",
             data=json.dumps(self.ride),
             headers=self.headers,
             content_type='application/json')
-        self.assertEquals(response.status_code, 201)
+        self.assertEquals(response.status_code, 200)
 
     def test_update_ride_not_int(self):
         response = self.client().put(
-            '/api/v2/users/rides/n',
+            '/api/v2/rides/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -309,35 +293,17 @@ class TestRequests(unittest.TestCase):
 
     def test_update_ride_not_int(self):
         response = self.client().put(
-            '/api/v2/rides/requests/n',
+            '/api/v2/rides/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
-            data['message'], 'Please provide a valid request Id')
-
-    def test_api_to_delete_a_request(self):
-        """ Test api to delete a ride given an id. Should pass"""
-        response = self.client().delete(
-            "/api/v2/rides/requests/1",
-            data=json.dumps(self.request),
-            headers=self.headers,
-            content_type='application/json')
-        self.assertEquals(response.status_code, 200)
-
-    def test_api_to_delete_a_ride(self):
-        """ Test api to delete a ride given an id. Should pass"""
-        response = self.client().delete(
-            "/api/v2/users/rides/1",
-            data=json.dumps(self.ride),
-            headers=self.headers,
-            content_type='application/json')
-        self.assertEquals(response.status_code, 200)
+            data['message'], 'Please provide a valid ride Id')
 
     def test_delete_ride_not_int(self):
         response = self.client().delete(
-            '/api/v2/users/rides/n',
+            '/api/v2/rides/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -347,7 +313,7 @@ class TestRequests(unittest.TestCase):
 
     def test_delete_request_not_int(self):
         response = self.client().delete(
-            '/api/v2/rides/requests/n',
+            '/api/v2/users/rides/requests/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -357,7 +323,7 @@ class TestRequests(unittest.TestCase):
 
     def test_user_can_accept_request(self):
         response = self.client().put(
-            '/api/v2/rides/requests/1/accept',
+            '/api/v2/users/rides/requests/1/accept',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -365,7 +331,7 @@ class TestRequests(unittest.TestCase):
 
     def test_user_can_reject_request(self):
         response = self.client().put(
-            '/api/v2/rides/requests/1/reject',
+            '/api/v2/users/rides/requests/1/reject',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -373,7 +339,7 @@ class TestRequests(unittest.TestCase):
 
     def test_reject_request_id_not_int(self):
         response = self.client().put(
-            '/api/v2/rides/requests/m/reject',
+            '/api/v2/users/rides/requests/m/reject',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
@@ -383,15 +349,13 @@ class TestRequests(unittest.TestCase):
 
     def test_accept_request_not_int(self):
         response = self.client().put(
-            '/api/v2/rides/requests/n/accept',
+            '/api/v2/users/rides/requests/n/accept',
             headers=self.headers)
         data = json.loads(response.data.decode())
         print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid request Id')
-
-
 
 
 if __name__ == "__main__":

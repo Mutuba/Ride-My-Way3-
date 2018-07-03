@@ -35,7 +35,7 @@ def create_app(config_name):
         return messages
 
     def whitespace(data):
-        '''method to validate white'''
+        '''method to validate whitespace'''
         newname = re.sub(r'\s+', '', data)
         afterlength = len(newname)
         actuallength = len(data)
@@ -43,7 +43,7 @@ def create_app(config_name):
             return True
 
     def val_none(**data):
-        '''method to check none'''
+        '''method to check none value'''
         messages = {}
         for key in data:
             if data[key] is None:
@@ -52,10 +52,12 @@ def create_app(config_name):
         return messages
 
     def pass_length(data):
+        """ Checks password length"""
         if len(data) < 8:
             return True
 
     def email_prtn(data):
+        """ Validates user email pattern"""
         pattern = re.match(
             r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data)
         if not pattern:
@@ -94,7 +96,7 @@ def create_app(config_name):
             print(request.json)
             new_user = {
                 "email": request.json['email'],
-                "username": request.json['username'],
+                "username": request.json['username'].lower(),
                 "password": request.json['password']
             }
             # get all user accounts from the database
@@ -170,7 +172,7 @@ def create_app(config_name):
                     return jsonify(
                         {'token': token.decode('UTF-8')},
                         {'message': 'Login successful'},
-                        {'role': role}), 201
+                        {'role': role}), 200
         return jsonify(
             {"message": "no valid user"}), 401
 
@@ -181,7 +183,7 @@ def create_app(config_name):
         if not request.json:
             abort(404)
         new_ride = {
-            "category": request.json['category'],
+            "category": request.json['category'].lower(),
             "pick_up": request.json['pick_up'],
             "drop_off": request.json['drop_off'],
             "date_time": request.json['date_time'],
@@ -197,7 +199,7 @@ def create_app(config_name):
         categories = [request['category'] for request in rides]
         if new_ride['category'] in categories:
             return jsonify(
-                {'message': 'Failed, Request already made'}), 201
+                {'message': 'Failed, Request already made'}), 500
 
         Rides.create_ride(
             new_ride['category'], new_ride['pick_up'],
@@ -206,7 +208,7 @@ def create_app(config_name):
         return jsonify(
             {'message': 'Ride created successfully'}), 201
 
-    @app.route("/api/v2/users/rides/<id>", methods=["GET"])
+    @app.route("/api/v2/rides/<id>", methods=["GET"])
     @login_required
     def get_ride(current_user_id, id):
         """ Function returns a single ride for the current user"""
@@ -219,10 +221,10 @@ def create_app(config_name):
             if ride[0]['creator_id'] == current_user_id:
                 return jsonify(ride), 200
             return jsonify({'message': 'Not authorized to view ride'})
-        return jsonify({'message': 'Ride not found'}), 200
+        return jsonify({'message': 'Ride not found'}), 404
 
     # Update a specific request
-    @app.route("/api/v2/users/rides/<id>", methods=["PUT"])
+    @app.route("/api/v2/rides/<id>", methods=["PUT"])
     @login_required
     def update_ride(current_user_id, id):
         """ Function updates details of a ride specified by an id"""
@@ -242,12 +244,12 @@ def create_app(config_name):
 
         message = Rides.update_a_ride(id, category, pick_up, drop_off)
         if message:
-            return jsonify(message), 201
+            return jsonify(message), 200
         else:
             return ({'message': 'update failed'})
 
     # Delete a specific request
-    @app.route("/api/v2/users/rides/<id>", methods=["DELETE"])
+    @app.route("/api/v2/rides/<id>", methods=["DELETE"])
     @login_required
     def delete_ride(current_user_id, id):
         """ Function deletes a ride specified by a given id"""
@@ -257,7 +259,7 @@ def create_app(config_name):
             return jsonify({'message':'Please provide a valid ride Id'}), 400
         ride = Rides.get_a_ride(int(id))
         if len(ride) < 1:
-            return jsonify({'message': 'ride not found'})
+            return jsonify({'message': 'ride not found'}), 500
         else:
             del_id = int(id)
             message = Rides.delete_a_ride(del_id)
@@ -266,9 +268,9 @@ def create_app(config_name):
             if message:
                 return jsonify(message), 200
             else:
-                return jsonify({'message': 'deleting failed'})
+                return jsonify({'message': 'deleting failed'}), 500
 
-    @app.route("/api/v2/users/rides")
+    @app.route("/api/v2/rides")
     @login_required
     def get_all_rides(current_user_id):
         """ Function returns all rides from the database"""
@@ -276,10 +278,10 @@ def create_app(config_name):
         print(ride)
         if len(ride) > 0:
             return jsonify(ride), 200
-        return jsonify({'message': 'no rides found'})
+        return jsonify({'message': 'no rides found'}), 500
 
     # ride requests endpoints
-    @app.route("/api/v2/rides/<id>/requests", methods=["POST"])
+    @app.route("/api/v2/users/rides/<id>/requests", methods=["POST"])
     @login_required
     def create_request(current_user_id, id):
         """ Function enables a user to create a request for a ride"""
@@ -306,7 +308,7 @@ def create_app(config_name):
         desc = [request['request_description'] for request in requests]
         if req['request_description'] in desc:
 
-            return jsonify({'message': 'Failed, Request already made'}), 201
+            return jsonify({'message': 'Failed, Request already made'}), 500
 
         Requests.create_request(req['request_description'],
                                 req['request_priority'],
@@ -315,7 +317,7 @@ def create_app(config_name):
         return jsonify({'message': 'Request created successfully'}), 201
 
     # View a specific request
-    @app.route("/api/v2/rides/requests/<id>", methods=["GET"])
+    @app.route("/api/v2/users/rides/requests/<id>", methods=["GET"])
     @login_required
     def get_request(current_user_id, id):
         try:
@@ -329,10 +331,10 @@ def create_app(config_name):
             if request[0]['requester_id'] == current_user_id:
                 return jsonify(request), 200
             return jsonify({'message': 'Not authorized to view request'})
-        return jsonify({'message': 'Request not found'}), 200
+        return jsonify({'message': 'Request not found'}), 404
 
     # Update a specific request
-    @app.route("/api/v2/rides/requests/<id>", methods=["PUT"])
+    @app.route("/api/v2/users/rides/requests/<id>", methods=["PUT"])
     @login_required
     def update_request(current_user_id, id):
         """ Function updated a ride request"""
@@ -351,12 +353,12 @@ def create_app(config_name):
 
         message = Requests.update_a_request(id, description, priority)
         if message:
-            return jsonify(message), 201
+            return jsonify(message), 200
         else:
-            return ({'message': 'update failed'})
+            return ({'message': 'update failed'}), 500
 
     # Delete a specific request
-    @app.route("/api/v2/rides/requests/<id>", methods=["DELETE"])
+    @app.route("/api/v2/users/rides/requests/<id>", methods=["DELETE"])
     @login_required
     def delete_request(current_user_id, id):
         """ Function deletes a ride request from the database"""
@@ -367,7 +369,7 @@ def create_app(config_name):
         request = Requests.get_a_request(int(id))
 
         if len(request) < 1:
-            return jsonify({'message': 'Request not found'})
+            return jsonify({'message': 'Request not found'}), 404
         else:
             del_id = int(id)
             message = Requests.delete_a_request(del_id)
@@ -378,19 +380,24 @@ def create_app(config_name):
                 return jsonify({'message': 'deleting failed'})
 
     # User can view all available requests
-    @app.route("/api/v2/rides/requests")
+    @app.route("/api/v2/users/rides/<id>/requests")
     @login_required
-    def get_all_requests(current_user_id):
+    def get_all_requests(current_user_id, id):
         """ Function gets all ride requests available in the database"""
-        request = Requests.get_all_requests()
+        try:
+            int(id)
+        except ValueError:
+            return jsonify({'message':'Please provide a valid request Id'}), 400
+        # request = Requests.get_a_request(int(id))
+        request = Requests.get_all_requests(id)
         print(request)
         if len(request) > 0:
             return jsonify(request), 200
 
-        return jsonify({'message': 'no requests found'})
+        return jsonify({'message': 'no requests found'}), 500
 
     # Accept a ride request
-    @app.route("/api/v2/rides/requests/<id>/accept", methods=["PUT"])
+    @app.route("/api/v2/users/rides/requests/<id>/accept", methods=["PUT"])
     @login_required
     def accept_request(current_user_id, id):
         """ Function enables a user to accept a ride request offer"""
@@ -407,10 +414,10 @@ def create_app(config_name):
             message = Requests.accept_a_request(id)
             return jsonify(message), 200
         elif status == 'rejected':
-            return jsonify({'message': 'Request already Rejected'})
+            return jsonify({'message': 'Request already Rejected'}), 500
 
     # Reject a request for a ride. Driver action
-    @app.route("/api/v2/rides/requests/<id>/reject", methods=["PUT"])
+    @app.route("/api/v2/users/rides/requests/<id>/reject", methods=["PUT"])
     @login_required
     def reject_request(current_user_id, id):
         """if Users.get_role(current_user_id)[0][0]:
@@ -431,7 +438,7 @@ def create_app(config_name):
             return jsonify(message), 201
         elif status == 'approved':
             return jsonify(
-                {'message': 'Request already accepted'})
+                {'message': 'Request already accepted'}), 500
         # return jsonify({'message': 'Only allowed for the driver'})
 
 
