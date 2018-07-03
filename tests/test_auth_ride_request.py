@@ -259,6 +259,26 @@ class TestRequests(unittest.TestCase):
         print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
+    def test_view_request_not_int(self):
+        response = self.client().get(
+            '/api/v2/rides/requests/n',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid request Id')
+
+    def test_view_ride_not_int(self):
+        response = self.client().get(
+            '/api/v2/users/rides/n',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid ride Id')
+
     def test_api_to_update_a_request(self):
         """ Test api to update a request. Should pass"""
         response = self.client().put(
@@ -277,6 +297,26 @@ class TestRequests(unittest.TestCase):
             content_type='application/json')
         self.assertEquals(response.status_code, 201)
 
+    def test_update_ride_not_int(self):
+        response = self.client().put(
+            '/api/v2/users/rides/n',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid ride Id')
+
+    def test_update_ride_not_int(self):
+        response = self.client().put(
+            '/api/v2/rides/requests/n',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid request Id')
+
     def test_api_to_delete_a_request(self):
         """ Test api to delete a ride given an id. Should pass"""
         response = self.client().delete(
@@ -294,6 +334,26 @@ class TestRequests(unittest.TestCase):
             headers=self.headers,
             content_type='application/json')
         self.assertEquals(response.status_code, 200)
+
+    def test_delete_ride_not_int(self):
+        response = self.client().delete(
+            '/api/v2/users/rides/n',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid ride Id')
+
+    def test_delete_request_not_int(self):
+        response = self.client().delete(
+            '/api/v2/rides/requests/n',
+            headers=self.headers)
+        data = json.loads(response.data.decode())
+        print(data)
+        self.assertEquals(response.status_code, 400)
+        self.assertEquals(
+            data['message'], 'Please provide a valid request Id')
 
     def test_user_can_accept_request(self):
         response = self.client().put(
@@ -321,7 +381,7 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(
             data['message'], 'Please provide a valid request Id')
 
-    def test_user_can_accept_request(self):
+    def test_accept_request_not_int(self):
         response = self.client().put(
             '/api/v2/rides/requests/n/accept',
             headers=self.headers)
