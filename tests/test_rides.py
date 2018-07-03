@@ -112,14 +112,6 @@ class TestRequests(unittest.TestCase):
         print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
-    def test_api_to_view_rides(self):
-        """ Test api to return all rides given from database"""
-        response = self.client().get(
-            "/api/v2/rides",
-            headers=self.headers)
-        print(self.headers['token'])
-        self.assertEquals(response.status_code, 200)
-
     def test_view_ride_not_int(self):
         response = self.client().get(
             '/api/v2/rides/n',
