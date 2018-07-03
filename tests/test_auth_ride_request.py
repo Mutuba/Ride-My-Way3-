@@ -72,7 +72,43 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(response.status_code, 200)
         self.headers = {'token': data[0]['token']}
 
-        
+##############
+        user = self.client().post(
+            "/api/v2/auth/register",
+            data=json.dumps(dict(email="dan@gmail.com", username="mutuma", password="baraka11")),
+            content_type="application/json")
+        # pass successful registration details to login endpoint
+        response = self.client().post('/api/v2/auth/login',
+                                      data=json.dumps(self.user5),
+                                      content_type='application/json')
+        data = json.loads(response.data.decode('UTF-8'))
+        self.assertTrue(data[0]["token"])
+        self.assertEquals(response.status_code, 200)
+        self.headers = {'token': data[0]['token']}
+
+        response = self.client().post('/api/v2/users/rides/1/requests',
+                                      data=json.dumps(self.request),
+                                      headers=self.headers,
+                                      content_type='application/json')
+        self.assertEquals(response.status_code, 201)
+
+        response = self.client().post(
+            '/api/v2/auth/login',
+            data=json.dumps(self.user5),
+            content_type='application/json')
+        data = json.loads(response.data.decode('UTF-8'))
+        self.assertTrue(data[0]["token"])
+        self.assertEquals(response.status_code, 200)
+        self.headers = {'token': data[0]['token']}
+
+        response = self.client().post(
+            '/api/v2/rides',
+            data=json.dumps(self.ride),
+            headers=self.headers,
+            content_type='application/json')
+        self.assertEquals(response.status_code, 201)
+
+########################
 
     def test_user_registration(self):
         """ test for user registration"""
