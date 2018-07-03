@@ -1,6 +1,6 @@
 from flask import Flask, abort, request, jsonify
 from instance.config import app_config, SECRET_KEY
-from V2.models import User, Ride, Request
+from app.models import User, Ride, Request
 import jwt
 import datetime
 from functools import wraps

@@ -1,4 +1,4 @@
-from V2 import create_app
+from app import create_app
 from flask_cors import CORS
 import psycopg2
 
