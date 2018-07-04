@@ -100,17 +100,17 @@ access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9eyJpYXQiO
 | /api/auth/v2/register | POST | Creates a user account | FALSE
 | /api/auth/v2/login | POST | Logs in a user | TRUE
 | /api/v2/rides | POST | Creates a ride | TRUE
-| /api/v2/users/rides | GET | Retrieves all rides | TRUE 
-| /api/v2/users/rides/{ride_id} | GET | Get a ride | TRUE
-| /api/v2/users/rides/{ride_id} | PUT | Update a ride details | TRUE
-| /api/v2/users/rides/{ride_id} | DELETE | Delete a ride | TRUE
-| /api/v2/rides/requests | POST | Request a ride | TRUE
-| /api/v2/users/rides/requests | GET | Get all requests for rides | TRUE
-| /api/v2/users/rides/requests/{request_id} | GET | Get a single request | TRUE
-| /api/v2/users/rides/requests/{request_id} | PUT | Update a single request | TRUE
-| /api/v2/users/rides/requests/{request_id} | DELETE | Delete a single request | TRUE
-| /api/v2/users/rides/requests/accept{request_id} | PUT | Accept a request | TRUE
-| /api/v2/users/rides/requests/reject{request_id} | PUT | Reject a request | TRUE
+| /api/v2/rides | GET | Retrieves all rides | TRUE 
+| /api/v2/rides/{ride_id} | GET | Get a ride | TRUE
+| /api/v2/rides/{ride_id} | PUT | Update a ride details | TRUE
+| /api/v2/rides/{ride_id} | DELETE | Delete a ride | TRUE
+| /api/v2/rides/{ride_id}/requests | POST | Request a ride | TRUE
+| /api/v2/rides/requests | GET | Get all requests for rides | TRUE
+| /api/v2/rides/requests/{request_id} | GET | Get a single request | TRUE
+| /api/v2/rides/requests/{request_id} | PUT | Update a single request | TRUE
+| /api/v2/rides/requests/{request_id} | DELETE | Delete a single request | TRUE
+| /api/v2/rides/requests/accept{request_id} | PUT | Accept a request | TRUE
+| /api/v2/rides/requests/reject{request_id} | PUT | Reject a request | TRUE
 
 
 ## API Documentation

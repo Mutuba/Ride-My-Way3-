@@ -81,7 +81,6 @@ class TestRequests(unittest.TestCase):
                                       data=json.dumps(self.request),
                                       headers=self.headers,
                                       content_type='application/json')
-        print(self.headers['token'])
         self.assertEquals(response.status_code, 201)
 
     def test_api_to_view_a_request(self):
@@ -89,7 +88,6 @@ class TestRequests(unittest.TestCase):
         response = self.client().get(
             "/api/v2/rides/requests/1",
             headers=self.headers)
-        print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
     def test_api_to_view_a_request_not_found(self):
@@ -97,7 +95,6 @@ class TestRequests(unittest.TestCase):
         response = self.client().get(
             "/api/v2/rides/requests/50",
             headers=self.headers)
-        print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
     def test_api_to_view_requests(self):
@@ -105,7 +102,6 @@ class TestRequests(unittest.TestCase):
         response = self.client().get(
             "/api/v2/rides/requests/1",
             headers=self.headers)
-        print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
     def test_view_request_not_int(self):
@@ -113,7 +109,6 @@ class TestRequests(unittest.TestCase):
             '/api/v2/rides/requests/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid request Id')
@@ -132,7 +127,6 @@ class TestRequests(unittest.TestCase):
             '/api/v2/rides/requests/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid request Id')
@@ -142,7 +136,6 @@ class TestRequests(unittest.TestCase):
             '/api/v2/rides/requests/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid request Id')
@@ -153,7 +146,6 @@ class TestRequests(unittest.TestCase):
             '/api/v2/rides/requests/m/reject',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid request Id')
@@ -163,7 +155,6 @@ class TestRequests(unittest.TestCase):
             '/api/v2/rides/requests/n/accept',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid request Id')

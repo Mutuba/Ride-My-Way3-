@@ -85,7 +85,7 @@ class TestRequests(unittest.TestCase):
             '/api/v2/auth/register',
             data=json.dumps(self.user8),
             content_type='application/json')
-        self.assertEquals(response.status_code, 404)
+        self.assertEquals(response.status_code, 406)
         response_msg = json.loads(response.data.decode("UTF-8"))
         self.assertEqual(
             response_msg["message"],

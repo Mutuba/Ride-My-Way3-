@@ -82,7 +82,6 @@ class TestRequests(unittest.TestCase):
             data=json.dumps(self.ride2),
             headers=self.headers,
             content_type='application/json')
-        print(self.headers['token'])
         self.assertEquals(response.status_code, 500)
 
     def test_api_create_ride_token_missing(self):
@@ -101,7 +100,6 @@ class TestRequests(unittest.TestCase):
         response = self.client().get(
             "/api/v2/rides/1",
             headers=self.headers)
-        print(self.headers['token'])
         self.assertEquals(response.status_code, 200)
 
     def test_api_to_view_a_ride_not_found(self):
@@ -109,15 +107,13 @@ class TestRequests(unittest.TestCase):
         response = self.client().get(
             "/api/v2/rides/50",
             headers=self.headers)
-        print(self.headers['token'])
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 404)
 
     def test_view_ride_not_int(self):
         response = self.client().get(
             '/api/v2/rides/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid ride Id')
@@ -137,7 +133,6 @@ class TestRequests(unittest.TestCase):
             '/api/v2/rides/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid ride Id')
@@ -148,7 +143,6 @@ class TestRequests(unittest.TestCase):
             '/api/v2/rides/n',
             headers=self.headers)
         data = json.loads(response.data.decode())
-        print(data)
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid ride Id')
