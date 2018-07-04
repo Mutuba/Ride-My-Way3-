@@ -56,7 +56,7 @@ def create_app(config_name):
         if len(data) < 8:
             return True
 
-    def email_prtn(data):
+    def validate_email_prtn(data):
         """ Function validates user email to match email pattern"""
         pattern = re.match(
             r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data)
@@ -77,7 +77,7 @@ def create_app(config_name):
                 token = request.headers.get('token')
 
             if not token:
-                return jsonify({'message': 'token is missing'}), 401
+                return jsonify({'message': 'token is missing'}), 401 
 
             try:
                 data = jwt.decode(token, SECRET_KEY)
@@ -125,7 +125,7 @@ def create_app(config_name):
                 return jsonify(
                     {'message':
                     'Password is weak! Must have atleast 8 characters'}), 406
-            val_email = email_prtn(request.json['email'])
+            val_email = validate_email_ptn(request.json['email'])
 
             if val_email:
                 return jsonify(

@@ -95,13 +95,6 @@ class TestRequests(unittest.TestCase):
         data = json.loads(response.data.decode())
         self.assertEquals(data['message'], 'token is missing')
 
-    # def test_api_to_view_a_ride(self):
-    #     """Test api to return a single ride given an id"""
-    #     response = self.client().get(
-    #         "/api/v2/rides/1",
-    #         headers=self.headers)
-    #     self.assertEquals(response.status_code, 200)
-
     def test_api_to_view_a_ride_not_found(self):
         """Test api to return a single ride given an id"""
         response = self.client().get(
