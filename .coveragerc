@@ -32,6 +32,7 @@ omit =
 		*/psycopg2*
 		*/dotenv*
 		*colorama.py*
+		*app.py*
 		*/colorama*
 		*fileinput.py*
 		*typing.py*
