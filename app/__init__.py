@@ -56,7 +56,7 @@ def create_app(config_name):
         if len(data) < 8:
             return True
 
-    def validate_email_prtn(data):
+    def validate_email_ptn(data):
         """ Function validates user email to match email pattern"""
         pattern = re.match(
             r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data)
