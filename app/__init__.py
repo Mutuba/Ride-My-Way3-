@@ -24,8 +24,8 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile("config.py")
 
-    def empty(**data):
-        '''method to validate username input'''
+    def if_empty_string(**data):
+        '''method to validate empty string'''
         messages = {}
         for key in data:
             newname = re.sub(r'\s+', '', data[key])
@@ -34,7 +34,7 @@ def create_app(config_name):
                 messages.update({key + '-Error:': message})
         return messages
 
-    def whitespace(data):
+    def has_whitespace(data):
         '''method to validate whitespace'''
         newname = re.sub(r'\s+', '', data)
         afterlength = len(newname)
@@ -42,8 +42,8 @@ def create_app(config_name):
         if afterlength != actuallength:
             return True
 
-    def val_none(**data):
-        '''method to check none'''
+    def value_none(**data):
+        '''method to check none for values'''
         messages = {}
         for key in data:
             if data[key] is None:
@@ -52,10 +52,12 @@ def create_app(config_name):
         return messages
 
     def pass_length(data):
+        """ Function determines if password length is less than 8 digits"""
         if len(data) < 8:
             return True
 
     def email_prtn(data):
+        """ Function validates user email to match email pattern"""
         pattern = re.match(
             r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", data)
         if not pattern:
@@ -103,18 +105,18 @@ def create_app(config_name):
             for user in users:  # loop through users each time append to list
                 all_users.append(user[0])
 
-            if val_none(**new_user):
+            if value_none(**new_user):
 
-                result = val_none(**new_ride)
-
-                return jsonify(result), 406
-
-            if empty(**new_user):
-
-                result = empty(**new_user)
+                result = value_none(**new_ride)
 
                 return jsonify(result), 406
-            val_pass = whitespace(request.json['username'])
+
+            if if_empty_string(**new_user):
+
+                result = if_empty_string(**new_user)
+
+                return jsonify(result), 406
+            val_pass = has_whitespace(request.json['username'])
             if val_pass:
                 return jsonify(
                     {'message': 'Username cannot contain white spaces'}), 406
@@ -239,6 +241,7 @@ def create_app(config_name):
 
         message = Rides.update_a_ride(id, category, pick_up, drop_off)
         if message:
+
             return jsonify(message), 201
         else:
             return ({'message': 'update failed'}), 400
@@ -256,6 +259,7 @@ def create_app(config_name):
         if len(ride) < 1:
             return jsonify({'message': 'ride not found'}), 400
         else:
+
             del_id = int(id)
             message = Rides.delete_a_ride(del_id)
 
@@ -302,7 +306,7 @@ def create_app(config_name):
         desc = [request['request_description'] for request in requests]
         if req['request_description'] in desc:
 
-            return jsonify({'message': 'Failed, Request already made'})
+            return jsonify({'message': 'Failed, Request already made'}), 400
 
         Requests.create_request(req['request_description'],
                                 req['request_priority'],
@@ -339,6 +343,7 @@ def create_app(config_name):
             return jsonify({'message':'Please provide a valid request Id'}), 400
         if not request.json:
             abort(404)
+
         description = request.json['request_description']
         priority = request.json['request_priority']
 
@@ -366,6 +371,7 @@ def create_app(config_name):
         if len(request) < 1:
             return jsonify({'message': 'Request not found'}), 404
         else:
+
             del_id = int(id)
             message = Requests.delete_a_request(del_id)
             if message:
@@ -422,7 +428,6 @@ def create_app(config_name):
             return jsonify({'message': 'No request found'}), 200
         status = status_list[0][0].lower()
 
-        print(status)
         if status == "pending":
             message = Requests.reject_a_request(id)
             return jsonify(message), 201

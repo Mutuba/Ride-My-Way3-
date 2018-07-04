@@ -19,7 +19,6 @@
   "tests/test_rides.py::TestRequests::test_api_create_ride_missing_category",
   "tests/test_rides.py::TestRequests::test_api_create_ride_token_missing",
   "tests/test_rides.py::TestRequests::test_api_to_update_a_ride",
-  "tests/test_rides.py::TestRequests::test_api_to_view_a_ride",
   "tests/test_rides.py::TestRequests::test_api_to_view_a_ride_not_found",
   "tests/test_rides.py::TestRequests::test_delete_ride_not_int",
   "tests/test_rides.py::TestRequests::test_update_ride_not_int",
