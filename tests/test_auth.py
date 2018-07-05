@@ -69,6 +69,18 @@ class TestAuth(unittest.TestCase):
             response_msg["message"],
             "Password is weak! Must have atleast 8 characters")
 
+    def test_user_registration_successful(self):
+        """ test for user registration"""
+        response = self.client().post(
+            '/api/v2/auth/signup',
+            data=json.dumps(self.user5),
+            content_type='application/json')
+        self.assertEquals(response.status_code, 201)
+        response_msg = json.loads(response.data.decode("UTF-8"))
+        self.assertEqual(
+            response_msg["message"],
+            "Sign up successful")
+
     def test_user_registration_username_contain_spaces(self):
         """ test for user registration"""
         response = self.client().post(

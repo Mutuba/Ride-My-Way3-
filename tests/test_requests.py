@@ -77,6 +77,13 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(response.status_code, 200)
         self.headers = {'token': data[0]['token']}
 
+    def test_api_for_user_create_request(self):
+        response = self.client().post("/api/v2/rides/1/requests",
+                                      data=json.dumps(self.request),
+                                      headers=self.headers,
+                                      content_type='application/json')
+        self.assertEquals(response.status_code, 201)
+
     def test_api_to_view_a_request(self):
         """Test api to return a single ride request given an id"""
         response = self.client().get(
