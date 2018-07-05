@@ -1,3 +1,5 @@
+# models.py impliments User, Ride and Request classes.
+
 import os
 import psycopg2
 import datetime
@@ -17,7 +19,8 @@ class User(object):
         self.role = role
 
     def create_user(self, username, email, password, role=None):
-        """" Function creates a user and saves in the database"""
+        """" Function creates a user with a username,
+        email, password and role"""
         if role is None:
             role = False
         cur = conn.cursor()
@@ -28,10 +31,11 @@ class User(object):
 
         conn.commit()
         cur.close()
-        print("New user added to user table")
 
     def show_users(self):
-        """ Function returns all users from the database"""
+        """ Function returns id, username, email, password, role, for
+        all users from the database"""
+
         cur = conn.cursor()
         cur.execute("SELECT * FROM users;")
         columns = ('user_id', 'username', 'email', 'password', 'role')
@@ -56,7 +60,7 @@ class User(object):
         sql = "DELETE from users WHERE user_id = (%s)"
         data = (id, )
         cur.execute(sql, data)
-        return({"message":"User deleted"})
+        return({"message": "User deleted"})
 
     def login(self, name, pswd):
         """ Function logs in a user after validating user details"""
@@ -116,7 +120,8 @@ class Ride(object):
         drop_off, date_time,
         ride_status, creator_id
     ):
-        """ Creates a ride and updates the database"""
+        """ Creates a ride with ride date, category, pick_up,
+        drop_off and date from user input"""
         cur = conn.cursor()
         sql = "INSERT INTO rides(ride_date, category, pick_up,\
                                     drop_off, date_time,\
@@ -206,7 +211,8 @@ class Request(object):
     def __init__(self, request_description,
         request_priority, request_status, ride_id
     ):
-        """ Class initialization. An instance of request will have this attributes. """
+        """ Class initialization.
+        An instance of request will have this attributes. """
         self.request_description = request_description
         self.request_priority = request_priority
         self.request_status = request_status

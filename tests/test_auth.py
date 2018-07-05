@@ -1,3 +1,5 @@
+# Tests for user authentication
+
 import os
 import unittest
 import json
@@ -5,7 +7,7 @@ from app import create_app
 import psycopg2
 
 
-class TestRequests(unittest.TestCase):
+class TestAuth(unittest.TestCase):
 
     def setUp(self):
         # Initialize our variable before test
@@ -34,7 +36,7 @@ class TestRequests(unittest.TestCase):
             "password": "baraka11"}
 
         user = self.client().post(
-            "/api/v2/auth/register",
+            "/api/v2/auth/signup",
             data=json.dumps(self.user5),
             content_type="application/json")
         # pass successful registration details to login endpoint
@@ -52,13 +54,13 @@ class TestRequests(unittest.TestCase):
             content_type='application/json')
         data = json.loads(response.data.decode('UTF-8'))
         self.assertTrue(data[0]["token"])
-        self.assertEquals(response.status_code, 200) ######
+        self.assertEquals(response.status_code, 200)
         self.headers = {'token': data[0]['token']}
 
     def test_user_registration(self):
         """ test for user registration"""
         response = self.client().post(
-            '/api/v2/auth/register',
+            '/api/v2/auth/signup',
             data=json.dumps(self.user),
             content_type='application/json')
         self.assertEquals(response.status_code, 406)
@@ -70,7 +72,7 @@ class TestRequests(unittest.TestCase):
     def test_user_registration_username_contain_spaces(self):
         """ test for user registration"""
         response = self.client().post(
-            '/api/v2/auth/register',
+            '/api/v2/auth/signup',
             data=json.dumps(self.user7),
             content_type='application/json')
         self.assertEquals(response.status_code, 406)
@@ -82,7 +84,7 @@ class TestRequests(unittest.TestCase):
     def test_user_registration_username_exists(self):
         """ test for user registration"""
         response = self.client().post(
-            '/api/v2/auth/register',
+            '/api/v2/auth/signup',
             data=json.dumps(self.user8),
             content_type='application/json')
         self.assertEquals(response.status_code, 406)
@@ -121,7 +123,7 @@ class TestRequests(unittest.TestCase):
     def test_invalid_user_email(self):
         """ test api for invalid email"""
         response = self.client().post(
-            '/api/v2/auth/register',
+            '/api/v2/auth/signup',
             data=json.dumps(self.user6),
             content_type='application/json')
         data = json.loads(response.data.decode())

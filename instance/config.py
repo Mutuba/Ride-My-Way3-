@@ -32,7 +32,8 @@ class ProductionConfig(Config):
     """Staging for production"""
     DEBUG = False
     TESTING = False
-    DATABASE_URL=os.getenv("DATABASE_URL")
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
 
 app_config = {
     'development': DevConfig,
