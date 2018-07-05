@@ -73,7 +73,8 @@ class TestAuth(unittest.TestCase):
         """ test for user registration"""
         response = self.client().post(
             '/api/v2/auth/signup',
-            data=json.dumps(self.user5),
+            data=json.dumps(dict(email="dan@gmail.com",
+                username="marking", password="12345678")),
             content_type='application/json')
         self.assertEquals(response.status_code, 201)
         response_msg = json.loads(response.data.decode("UTF-8"))
