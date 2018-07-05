@@ -1,0 +1,14 @@
+{
+  "tests/test_auth.py::TestAuth::test_api_for_user_create_request": true,
+  "tests/test_auth.py::TestAuth::test_user_registration_successful": true,
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_delete_a_request": true,
+  "tests/test_auth_ride_request.py::TestRequests::test_api_to_delete_a_ride": true,
+  "tests/test_auth_ride_request.py::TestRequests::test_create_ride_category_exist": true,
+  "tests/test_request.py::TestRequests::test_api_for_user_create_request": true,
+  "tests/test_request.py::TestRequests::test_api_for_user_read_all_request": true,
+  "tests/test_request.py::TestRequests::test_api_to_delete_a_request": true,
+  "tests/test_request.py::TestRequests::test_api_to_update_a_request": true,
+  "tests/test_request.py::TestRequests::test_api_to_view_a_request": true,
+  "tests/test_requests.py::TestRequests::test_api_for_user_create_request": true,
+  "tests/test_rides.py::TestRequests::test_api_to_view_a_ride": true
+}
