@@ -1,3 +1,4 @@
+# models.py Defines classes for users, rides, and requests
 import os
 import psycopg2
 import datetime
@@ -17,7 +18,8 @@ class User(object):
         self.role = role
 
     def create_user(self, username, email, password, role=None):
-        """" Function creates a user and saves in the database"""
+        """" Function creates a user with a
+        username, email, password and role"""
         if role is None:
             role = False
         cur = conn.cursor()
@@ -31,7 +33,7 @@ class User(object):
         print("New user added to user table")
 
     def show_users(self):
-        """ Function returns all users from the database"""
+        """ Function returns all users' id, email, username, password, role"""
         cur = conn.cursor()
         cur.execute("SELECT * FROM users;")
         columns = ('user_id', 'username', 'email', 'password', 'role')
@@ -41,7 +43,7 @@ class User(object):
         return users
 
     def promote_user(self, id):
-        """ Function promotes a user's role"""
+        """ Function promotes a user's role """
         cur = conn.cursor()
         role = True
         sql = "UPDATE users SET role=(%s) WHERE user_id=(%s);"
@@ -56,7 +58,7 @@ class User(object):
         sql = "DELETE from users WHERE user_id = (%s)"
         data = (id, )
         cur.execute(sql, data)
-        return({"message":"User deleted"})
+        return({"message": "User deleted"})
 
     def login(self, name, pswd):
         """ Function logs in a user after validating user details"""
@@ -79,7 +81,7 @@ class User(object):
         return users
 
     def get_role(self, id):
-        """ Returns the role of a user"""
+        """ Returns the role of a user """
         cur = conn.cursor()
         cur.execute("SELECT role FROM users WHERE user_id = (%s)", [id])
         roles = []
@@ -133,7 +135,7 @@ class Ride(object):
         print("New ride added to user table")
 
     def get_user_rides(self, id):
-        """ Function returns current user's rides from the database"""
+        """ Function returns current user's rides from the database """
         cur = conn.cursor()
         cur.execute("SELECT * FROM rides WHERE creator_id = (%s)", [id])
         columns = ('ride_id', 'ride_date', 'category',
@@ -207,6 +209,7 @@ class Request(object):
         request_priority, request_status, ride_id
     ):
         """ Class initialization. An instance of request will have this attributes. """
+
         self.request_description = request_description
         self.request_priority = request_priority
         self.request_status = request_status
@@ -247,7 +250,7 @@ class Request(object):
         return requests
 
     def get_a_request(self, id):
-        """ Function returns a request by id"""
+        """ Function returns a request by id """
         cur = conn.cursor()
         cur.execute("SELECT * FROM requests WHERE request_id = (%s)", [id])
         columns = ('request_id', 'request_date',

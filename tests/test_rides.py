@@ -5,7 +5,7 @@ from app import create_app
 import psycopg2
 
 
-class TestRequests(unittest.TestCase):
+class TestRides(unittest.TestCase):
 
     def setUp(self):
         # Initialize our variable before test
@@ -54,7 +54,7 @@ class TestRequests(unittest.TestCase):
         }
 
         user = self.client().post(
-            "/api/v2/auth/register",
+            "/api/v2/auth/signup",
             data=json.dumps(self.user5),
             content_type="application/json")
         # pass successful registration details to login endpoint
@@ -72,7 +72,7 @@ class TestRequests(unittest.TestCase):
             content_type='application/json')
         data = json.loads(response.data.decode('UTF-8'))
         self.assertTrue(data[0]["token"])
-        self.assertEquals(response.status_code, 200) ######
+        self.assertEquals(response.status_code, 200)
         self.headers = {'token': data[0]['token']}
 
     def test_api_create_ride_missing_category(self):
@@ -111,7 +111,6 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(
             data['message'], 'Please provide a valid ride Id')
 
-
     def test_api_to_update_a_ride(self):
         """ Test api to update a ride given an id. Should pass"""
         response = self.client().put(
@@ -129,7 +128,6 @@ class TestRequests(unittest.TestCase):
         self.assertEquals(response.status_code, 400)
         self.assertEquals(
             data['message'], 'Please provide a valid ride Id')
-
 
     def test_delete_ride_not_int(self):
         response = self.client().delete(

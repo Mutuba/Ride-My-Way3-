@@ -1,3 +1,5 @@
+
+# contains api views
 from flask import Flask, abort, request, jsonify
 from instance.config import app_config, SECRET_KEY
 from app.models import User, Ride, Request
@@ -9,8 +11,8 @@ import re
 
 
 Users = User('username', 'email', 'password', 'role')
-Rides = Ride('category', 'pick_up', 'drop_off', 
-    'date_time', 'ride_status', 'creator_id' )
+Rides = Ride('category', 'pick_up', 'drop_off',
+    'date_time', 'ride_status', 'creator_id')
 Requests = Request('request_description',
     'request_priority', 'request_status', 'ride_id')
 
@@ -77,7 +79,7 @@ def create_app(config_name):
                 token = request.headers.get('token')
 
             if not token:
-                return jsonify({'message': 'token is missing'}), 401 
+                return jsonify({'message': 'token is missing'}), 401
 
             try:
                 data = jwt.decode(token, SECRET_KEY)
@@ -89,8 +91,8 @@ def create_app(config_name):
             return f(*args, **kwargs)
         return decorated
 
-    @app.route("/api/v2/auth/register", methods=["POST"])
-    def register_user():
+    @app.route("/api/v2/auth/signup", methods=["POST"])
+    def signup_user():
         """ Method creates a user account using email, username and password"""
         if request.json:
             print(request.json)
@@ -107,7 +109,7 @@ def create_app(config_name):
 
             if value_none(**new_user):
 
-                result = value_none(**new_ride)
+                result = value_none(**new_user)
 
                 return jsonify(result), 406
 
@@ -124,7 +126,8 @@ def create_app(config_name):
             if val_length:
                 return jsonify(
                     {'message':
-                    'Password is weak! Must have atleast 8 characters'}), 406
+                        'Password is weak! Must have atleast 8 characters'}),
+                406
             val_email = validate_email_ptn(request.json['email'])
 
             if val_email:
@@ -141,7 +144,8 @@ def create_app(config_name):
             Users.create_user(
                 new_user['username'], new_user['email'],
                 hashed_pswd)
-            return jsonify({'message': 'User created successfully'}), 201
+            return jsonify(
+                {'message': 'Signup successfully'}), 201
 
     # User can login using email and password
     @app.route("/api/v2/auth/login", methods=["POST"])
@@ -154,7 +158,7 @@ def create_app(config_name):
 
         if username == "" or password == "":
 
-            return jsonify({'message': 'Please fill all fields'})
+            return jsonify({'message': 'Please fill all fields'}), 400
 
         users = Users.login(username, password)
         if users:
@@ -191,7 +195,8 @@ def create_app(config_name):
 
         for values in new_ride.values():
             if values == "":
-                return jsonify({'message': 'Please fill all fields'}), 500
+                return jsonify(
+                    {'message': 'Please fill all fields'}), 500
 
         rides = Rides.get_user_rides(current_user_id)
         categories = [request['category'] for request in rides]
@@ -213,7 +218,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid ride Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid ride Id'}), 400
         ride = Rides.get_a_ride(id)
         if ride:
             return jsonify(ride), 200
@@ -228,7 +234,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid ride Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid ride Id'}), 400
         if not request.json:
             abort(404)
         category = request.json['category']
@@ -254,7 +261,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid ride Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid ride Id'}), 400
         ride = Rides.get_a_ride(int(id))
         if len(ride) < 1:
             return jsonify({'message': 'ride not found'}), 400
@@ -286,7 +294,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid request Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid request Id'}), 400
         if not request.json:
             abort(404)
         req = {
@@ -312,7 +321,8 @@ def create_app(config_name):
                                 req['request_priority'],
                                 req['request_status'], req['requester_id'],
                                 req['ride_id'])
-        return jsonify({'message': 'Request created successfully'}), 201
+        return jsonify(
+            {'message': 'Request created successfully'}), 201
 
     # View a specific request
     @app.route("/api/v2/rides/requests/<id>", methods=["GET"])
@@ -321,7 +331,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid request Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid request Id'}), 400
         """ FUnction returns a ride request by id"""
         req_id = int(id)
         request = Requests.get_a_request(req_id)
@@ -340,7 +351,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid request Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid request Id'}), 400
         if not request.json:
             abort(404)
 
@@ -387,7 +399,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid request Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid request Id'}), 400
         request = Requests.get_all_requests(id)
         if len(request) > 0:
             return jsonify(request), 200
@@ -402,7 +415,8 @@ def create_app(config_name):
         try:
             int(id)
         except ValueError:
-            return jsonify({'message':'Please provide a valid request Id'}), 400
+            return jsonify(
+                {'message': 'Please provide a valid request Id'}), 400
         status_list = Requests.get_status(id)
         if len(status_list) == 0:
             return jsonify({'message': 'No request found'}), 404
