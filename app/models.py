@@ -6,7 +6,7 @@ import datetime
 
 
 conn = psycopg2.connect(
-    host=os.getenv("HOST"), database=os.getenv("DATABASE"),
+    host=os.getenv("HOST"), database=os.getenv("DATABASE_URL"),
     user=os.getenv("USER"), password=os.getenv("PASSWORD"))
 
 

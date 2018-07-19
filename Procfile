@@ -1,1 +1,2 @@
-web: python3 run.py
+web: gunicorn app:app
+release: python create_tables.py

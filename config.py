@@ -1,8 +1,8 @@
 # config file
-
 import os
 
-SECRET_KEY = "Mysecret"
+SECRET_KEY = os.getenv("SECRET_KEY")
+
 
 
 class Config(object):
@@ -32,7 +32,7 @@ class ProductionConfig(Config):
     """Staging for production"""
     DEBUG = False
     TESTING = False
-    DATABASE_URL = os.getenv("DATABASE_URL")
+    #DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 app_config = {
