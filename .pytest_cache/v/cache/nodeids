@@ -3,7 +3,6 @@
   "tests/test_auth.py::TestAuth::test_invalid_user_email",
   "tests/test_auth.py::TestAuth::test_invalid_user_login",
   "tests/test_auth.py::TestAuth::test_user_registration",
-  "tests/test_auth.py::TestAuth::test_user_registration_successful",
   "tests/test_auth.py::TestAuth::test_user_registration_username_contain_spaces",
   "tests/test_auth.py::TestAuth::test_user_registration_username_exists",
   "tests/test_auth.py::TestAuth::test_valid_user_login",

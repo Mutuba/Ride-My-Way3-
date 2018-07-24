@@ -6,6 +6,7 @@ import datetime
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
+from create_tables import create_tables
 
 
 Users = User('username', 'email', 'password', 'role')
@@ -296,6 +297,10 @@ def create_app(config_name):
                 {'message': 'Please provide a valid request Id'}), 400
         if not request.json:
             abort(404)
+        # ride = Rides.get_a_ride(id)
+        # if ride[1] == current_user_id:
+        #     return jsonify(
+        #         {'message': 'You cannot request your own ride'}), 400
         req = {
             "request_description": request.json['request_description'],
             "request_priority": request.json['request_priority'],
@@ -447,5 +452,7 @@ def create_app(config_name):
         elif status == 'approved':
             return jsonify(
                 {'message': 'Request already accepted'}), 400
+
+    create_tables()
 
     return app

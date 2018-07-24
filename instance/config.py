@@ -2,7 +2,7 @@
 
 import os
 
-SECRET_KEY = "Mysecret"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 class Config(object):
