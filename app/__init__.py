@@ -6,6 +6,7 @@ import datetime
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
+from create_tables import create_tables
 
 
 Users = User('username', 'email', 'password', 'role')
@@ -447,5 +448,5 @@ def create_app(config_name):
         elif status == 'approved':
             return jsonify(
                 {'message': 'Request already accepted'}), 400
-
+    create_tables()
     return app
