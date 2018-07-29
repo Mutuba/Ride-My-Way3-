@@ -27,13 +27,13 @@ def create_app(config_name):
 
     def if_empty_string(**data):
         '''method to validate empty string'''
-        # messages = {}
+        messages = {}
         for key in data:
             newname = re.sub(r'\s+', '', data[key])
             if not newname:
                 message = {'message': key + ' cannot be an empty string'}
-                # messages.update({key + '-Error:': message})
-        return message
+                messages.update({key + '-Error:': message})
+        return messages
 
     def has_whitespace(data):
         '''method to validate whitespace'''
@@ -45,12 +45,12 @@ def create_app(config_name):
 
     def value_none(**data):
         '''method to check none for values'''
-        # messages = {}
+        messages = {}
         for key in data:
             if data[key] is None:
                 message = {'message': key + ' cannot be missing'}
-                # messages.update({key + '-Error:': message})
-        return message
+                messages.update({key + '-Error:': message})
+        return messages
 
     def pass_length(data):
         """ Function determines if password length is less than 8 digits"""
