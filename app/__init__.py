@@ -171,9 +171,7 @@ def create_app(config_name):
                         datetime.timedelta(minutes=30)}, SECRET_KEY)
                     role = Users.get_role(user['user_id'])[0][0]
                     return jsonify(
-                        {'token': token.decode('UTF-8')},
-                        {'message': 'Login successful'},
-                        {'role': role}), 200
+                        {"token": token.decode('UTF-8')}), 200
         return jsonify(
             {"message": "no valid user"}), 401
 
