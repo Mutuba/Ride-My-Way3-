@@ -1,0 +1,319 @@
+FORMAT: 1A
+HOST: https://dashboard.heroku.com/apps/ride-my-way3/
+
+# Ride-My-Way
+A Web Application that enable users to create an account. After account creation,
+users will be able to create ride offers, see available ride offers.
+Users will be able to view the ride offers and request to join.
+
+# Group User
+
+## User Registration [/api/v1/auth/register]
+All requests sent by client to register new user accounts are handled by
+this resource. Receives data in `json` format and it should check that
+all the required fields are supplied.
+
+### Register a user [POST]
+The Endpoint registers a new User
++ Request (application/json)
+Request is sent with the user details in `json` format after validation
+            
+    - Body
+        
+            {
+                "email": "danielmutubait@gmail.com"
+                "username":"daniel"
+                "password":"12345678"
+            }
+    
++ Response 200 (application/json)
+Returns response when all user data is validated.
+    - Headers
+        
+            
+    - Body 
+                
+            {
+                "message": "User Succesfully Registered"
+            }
+            
++ Response 409 (applicaton/json)
+Returns response for an already existing email.   
+    - Headers
+    
+    - Body 
+            
+            {
+                "message": "Email already existing."
+            }
+
++ Response 409 (applicaton/json)
+Returns response for an already existing username.   
+    - Headers
+    
+    - Body 
+            
+            {
+                "message": "Username already existing."
+            }
+
+## User Login [/api/v1/auth/login]
+All requests sent by client to login a user account are handled by
+this resource. Receives data in `json` format and it should check that
+all the required fields are supplied.
+
+### Login a user [POST]
+Enpoint which logs in the user.
++ Request (application/json)
+The request carries the user data passed in `json` format after validation
+
+    - Headers
+    
+    - Body
+    
+            {
+                "email": "danielmutubait@gmail.com"
+                "password":"12345678"
+            }
+
++ Response 201 (application/json)
+Returns a tokenstring upon validating user input
+    - Headers
+        
+            
+    - Body 
+                
+            {
+                "token": "tokenstring"
+            }  
+
+## Password Change [/api/v1/auth/change_password]
+Requests sent by client to change_password route are handled by
+this resource. Receives data in `json` format and it should check that
+all the required fields are supplied.
+
+### Change Password [POST]
+Enpoint which changes user password to the new password that will be provided.
++ Request (application/json)
+The request carries the user data passed in `json` format after validation
+
+    - Headers
+    
+    - Body
+    
+            {
+                "old_password": "12345678"
+                "new_password":"1234567899"
+            }
+
++ Response 201 (application/json)
+Returns a tokenstring upon validating user input
+    - Headers
+        
+            
+    - Body 
+                
+            {
+                "token": "tokenstring"
+            }  
+    
++ Response 406 (applicaton/json)
+Returns response for an already existing username.   
+    - Headers
+    
+    - Body 
+            
+            {
+                "message": "Password is weak! Must have atleast 8 characters"
+            }
++ Response 200 (applicaton/json)
+Returns response for an already existing username.   
+    - Headers
+    
+    - Body 
+            
+            {
+                "message": "Reset successful"
+            }
++ Response 401 (applicaton/json)
+Returns response for an already existing username.   
+    - Headers
+    
+    - Body 
+            
+            {
+                "message": "Wrong Password. Cannot reset. Forgotten password?"
+            
+
+
+## Ride Creation [/api/v1/rides/]
+All requests sent by client to create new rides are handled by
+this resource. Receives data in `json` format and it should check that
+all the required fields are supplied.
+
+
+### Create Ride [POST]
+Creates a ride
++ Request (application/json)
+The request takes rides deatails in `json` format after validating the inputs.
+
+    - Headers
+
+            Authorization: Bearer tokenstring
+            
+    - Body
+        
+            {
+                "category": "SUV"
+                "pick_up":"Uthiru"
+                "drop-off":"Thika",
+                "date_time":"24th June 14:30 Hrs",
+                "price":"Ksh. 1400"
+            }
+    
++ Response 201 (application/json)
+Returns a `json` success message upon validating the user input.
+    - Headers
+        
+            
+    - Body 
+                
+            {
+                "message": "Ride Successfully Registered"
+            }
+            
++ Response 409 (application/json)
+Returns a  json `json` message  
+    - Headers
+        
+            
+    - Body 
+                
+            {
+                "message": "Ride already exists"
+            }
+            
+                
+### Get Ride [GET]
+Resquest sent to this resource returns all the rides available in the database.
+            
+    
++ Response 200 (application/json)
+Returns `json` objects upon sending the get request.
+
+    - Headers 
+
+            
+    - Body 
+                
+            {
+                "category": "Limousine"
+                "pick_up":"Thika"
+                "drop_off":"Upperhill"
+                "date_time":"22nd June 13.30hrs"
+                "price":"Ksh. 1500"
+            }
+    
+
+
+
+## Single Ride [/api/v1/rides/{id}]
+All requests are  that  sent by the client retrieves a single Ride account are handled by
+this resource. Receives data in `json` format and it should check that
+all the required fields are supplied.
+
++ Parameters
+    - id: 1 (string) - the id of the ride
+    
+
+### Get Rides [GET]
+Resquest sent to this resource returns all the rides in the database.
+            
+    
++ Response 200 (application/json)
+Returns `json` object upon  sending the get request for a specific ride.
+
+    - Headers 
+
+            
+    - Body 
+                
+            {
+                "category": "Limousine"
+                "pick_up":"Uthiru"
+                "drop_off":"Thika Road Mall"
+                "date_time":"22nd June 15.00 hrs"
+                "price":"Ksh. 500"
+            }
+    
+
+### Update Ride[PUT]
+This enpoint updates the ride.
++ Request (application/json)
+Request takes a token header and ride 
+    - Header 
+            
+            Authorization: Bearer tokenstring
+            
+
+            
+    - Body
+        
+            {
+        
+                "category":"SUV"
+            }
+    
++ Response 200 (application/json)
+Returns a `json` updated request of the post request sent.
+    - Headers
+        
+            
+    - Body 
+                
+            {
+                "category": "SUV",
+                "pick_up":"22nd June 18:00 HRS",
+                "price":"Ksh. 900"
+            }
+
+### Delete Ride[DELETE]
+This endpoint deletes a ride .
++ Response 202 (application/json)
+deletes a ride upon validating the token passed in the headers.
+
+    - Headers
+
+                Authorization: Bearer tokenstring
+             
+    - Body 
+                
+            {
+                "message":"Ride successfully deleted"
+            }
+            
++ Response 404 (application/json)
+Returnes when a queried Ride is not found in the database.   
+    - Headers
+               
+    - Body 
+                
+            {
+                "message":"Ride not found"
+            }
+            
+## Logout [/api/v1/auth/logout]
+Requests sent by the client to this resource dumps the current token and renders it invalid.
+
+
+### Logout User[POST]
+The endpoint logs out a user
+
++ Response 200 (application/json)
+returns  a success `json` message after invalidating the token.
+            
+    - Body 
+                
+            {
+                "message":"Successfully logged out"
+            }
